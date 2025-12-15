@@ -67,7 +67,7 @@ const programs = [
   },
 ];
 
-const categories = ["Semua", "Pendidikan", "Lingkungan", "Kesehatan", "Infrastruktur", "Ekonomi"];
+const categories = [ "Semua", "Pendidikan", "Lingkungan", "Kesehatan", "Infrastruktur", "Ekonomi" ];
 
 const Program = () => {
   useDocumentTitle("Program");

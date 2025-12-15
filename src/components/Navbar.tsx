@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import nusarupaLogo from "@/assets/icon-nusarupa.svg"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -12,7 +13,7 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [ isOpen, setIsOpen ] = useState(false);
   const location = useLocation();
 
   return (
@@ -22,9 +23,9 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <div className="flex items-center gap-1">
-              <div className="w-2 h-2 rounded-full bg-primary" />
-              <div className="w-2 h-2 rounded-full bg-yellow-400" />
-              <div className="w-2 h-2 rounded-full bg-red-400" />
+              <img className="h-8 w-8"
+                src={nusarupaLogo}
+                alt="nusarupa-logo" />
             </div>
             <span className="text-xl font-bold text-foreground">nusarupa</span>
           </Link>
@@ -35,11 +36,10 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 to={link.href}
-                className={`px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
-                  location.pathname === link.href
-                    ? "text-primary bg-primary/5"
-                    : "text-muted-foreground hover:text-primary hover:bg-muted"
-                }`}
+                className={`px-4 py-2 text-sm font-medium transition-colors rounded-lg ${location.pathname === link.href
+                  ? "text-primary bg-primary/5"
+                  : "text-muted-foreground hover:text-primary hover:bg-muted"
+                  }`}
               >
                 {link.label}
               </Link>
@@ -73,11 +73,10 @@ const Navbar = () => {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`px-4 py-3 text-sm font-medium transition-colors rounded-lg ${
-                    location.pathname === link.href
-                      ? "text-primary bg-primary/5"
-                      : "text-muted-foreground hover:text-primary hover:bg-muted"
-                  }`}
+                  className={`px-4 py-3 text-sm font-medium transition-colors rounded-lg ${location.pathname === link.href
+                    ? "text-primary bg-primary/5"
+                    : "text-muted-foreground hover:text-primary hover:bg-muted"
+                    }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {link.label}

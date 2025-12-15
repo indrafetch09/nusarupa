@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import heroCommunity from "@/assets/hero-community.jpg";
+import heroCommunity from "@/assets/nusarupa-hero-background.webp";
 
 const HeroSection = () => {
   return (
