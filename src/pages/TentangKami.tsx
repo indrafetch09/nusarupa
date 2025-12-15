@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Target, Eye, Heart } from "lucide-react";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 const values = [
   {
@@ -29,6 +30,8 @@ const team = [
 ];
 
 const TentangKami = () => {
+  useDocumentTitle("Tentang Kami");
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
