@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import nusarupaLogo from "@/assets/icon-nusarupa.svg";
 
 const Footer = () => {
   return (
@@ -8,9 +9,9 @@ const Footer = () => {
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 rounded-full bg-primary" />
-                <div className="w-2 h-2 rounded-full bg-yellow-400" />
-                <div className="w-2 h-2 rounded-full bg-red-400" />
+                <img className="h-8 w-8"
+                  src={nusarupaLogo}
+                  alt="nusarupa-logo" />
               </div>
               <span className="text-xl font-bold text-foreground">nusarupa</span>
             </Link>
