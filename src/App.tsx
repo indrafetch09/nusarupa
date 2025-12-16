@@ -8,6 +8,7 @@ import TentangKami from "./pages/TentangKami";
 import Program from "./pages/Program";
 import MenjadiBagian from "./pages/MenjadiBagian";
 import Kontak from "./pages/Kontak";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/program" element={<Program />} />
           <Route path="/menjadi-bagian" element={<MenjadiBagian />} />
           <Route path="/kontak" element={<Kontak />} />
+          <Route path="/auth" element={<Auth />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
