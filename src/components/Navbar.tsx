@@ -23,7 +23,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <div className="flex items-center gap-1">
-              <img className="h-8 w-8"
+              <img className="h-6 w-6"
                 src={nusarupaLogo}
                 alt="nusarupa-logo" />
             </div>
@@ -49,14 +49,13 @@ const Navbar = () => {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <Link to="/auth?mode=register">
-              <Button variant="navOutline" size="nav">
+              <Button variant="navOutline" className="nav">
                 Daftar
               </Button>
             </Link>
             <Link to="/auth?mode=login">
-              <Button variant="navPrimary" size="nav">
-                Masuk
-              </Button>
+              <Button variant="navPrimary" className="nav">
+                Masuk</Button>
             </Link>
           </div>
 
@@ -88,12 +87,14 @@ const Navbar = () => {
               ))}
               <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border/50">
                 <Link to="/auth?mode=register" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" >
                     Daftar
                   </Button>
                 </Link>
+
                 <Link to="/auth?mode=login" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full">Masuk</Button>
+                  <Button className="w-full">
+                    Masuk</Button>
                 </Link>
               </div>
             </div>

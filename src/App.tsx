@@ -8,8 +8,8 @@ import TentangKami from "./pages/TentangKami";
 import Program from "./pages/Program";
 import MenjadiBagian from "./pages/MenjadiBagian";
 import Kontak from "./pages/Kontak";
-import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
 
 const queryClient = new QueryClient();
 
