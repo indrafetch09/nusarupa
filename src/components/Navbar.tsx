@@ -48,12 +48,16 @@ const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="navOutline" size="nav">
-              Daftar
-            </Button>
-            <Button variant="navPrimary" size="nav">
-              Masuk
-            </Button>
+            <Link to="/auth?mode=register">
+              <Button variant="navOutline" size="nav">
+                Daftar
+              </Button>
+            </Link>
+            <Link to="/auth?mode=login">
+              <Button variant="navPrimary" size="nav">
+                Masuk
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -83,10 +87,14 @@ const Navbar = () => {
                 </Link>
               ))}
               <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border/50">
-                <Button variant="outline" className="w-full">
-                  Daftar
-                </Button>
-                <Button className="w-full">Masuk</Button>
+                <Link to="/auth?mode=register" onClick={() => setIsOpen(false)}>
+                  <Button variant="outline" className="w-full">
+                    Daftar
+                  </Button>
+                </Link>
+                <Link to="/auth?mode=login" onClick={() => setIsOpen(false)}>
+                  <Button className="w-full">Masuk</Button>
+                </Link>
               </div>
             </div>
           </div>
