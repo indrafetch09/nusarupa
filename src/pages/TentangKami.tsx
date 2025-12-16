@@ -44,7 +44,7 @@ const TentangKami = () => {
                 Tentang <span className="text-primary">Nusarupa</span>
               </h1>
               <p className="text-lg text-muted-foreground animate-fade-up-delay">
-                Kami adalah platform yang menghubungkan relawan dengan berbagai program sosial di seluruh Indonesia. 
+                Kami adalah platform yang menghubungkan relawan dengan berbagai program sosial di seluruh Indonesia.
                 Didirikan pada tahun 2020, Nusarupa telah membantu ribuan relawan untuk berkontribusi dalam berbagai kegiatan sosial.
               </p>
             </div>
@@ -83,11 +83,11 @@ const TentangKami = () => {
                 Cerita Kami
               </h2>
               <p className="text-lg text-primary-foreground/90 leading-relaxed mb-8">
-                Nusarupa lahir dari kepedulian terhadap kesenjangan sosial di Indonesia. Kami percaya bahwa setiap orang memiliki 
-                potensi untuk memberikan dampak positif, dan tugas kami adalah memfasilitasi hal tersebut. Dengan teknologi dan 
+                Nusarupa lahir dari kepedulian terhadap kesenjangan sosial di Indonesia. Kami percaya bahwa setiap orang memiliki
+                potensi untuk memberikan dampak positif, dan tugas kami adalah memfasilitasi hal tersebut. Dengan teknologi dan
                 jaringan yang luas, kami menghubungkan mereka yang ingin membantu dengan mereka yang membutuhkan bantuan.
               </p>
-              <Button variant="heroOutline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:border-primary-foreground">
+              <Button variant="heroOutline" size="lg" className="border-primary-foreground/30 text-primary hover:bg-primary-foreground/10 hover:border-primary-foreground">
                 Bergabung Bersama Kami
               </Button>
             </div>
