@@ -9,33 +9,35 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 14% 10%;
+    --background: 0 0% 100%; /* H:0 S:0% L:100% - Pure white */
+    --foreground: 220 14% 10%; /* H:220 S:14% L:10% - Dark blue-gray */
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 14% 10%;
+    --card: 0 0% 100%; /* H:0 S:0% L:100% - Pure white */
+    --card-foreground: 220 14% 10%; /* H:220 S:14% L:10% - Dark blue-gray */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 14% 10%;
+    --popover: 0 0% 100%; /* H:0 S:0% L:100% - Pure white */
+    --popover-foreground: 220 14% 10%; /* H:220 S:14% L:10% - Dark blue-gray */
 
-    --primary: 102 63% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 102 63% 60%; /* H:102 S:63% L:60% - Green */
+    --primary-foreground: 0 0% 100%; /* H:0 S:0% L:100% - Pure white */
 
-    --secondary: 142 40% 95%;
-    --secondary-foreground: 142 76% 30%;
+    --secondary: 142 40% 95%; /* H:142 S:40% L:95% - Light green */
+    --secondary-foreground: 142 76% 30%; /* H:142 S:76% L:30% - Dark green */
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 220 14% 96%; /* H:220 S:14% L:96% - Very light gray */
+    --muted-foreground: 220 10% 46%; /* H:220 S:10% L:46% - Medium gray */
 
-    --accent: 142 40% 95%;
-    --accent-foreground: 142 76% 30%;
+    --accent: 142 40% 95%; /* H:142 S:40% L:95% - Light green */
+    --accent-foreground: 142 76% 30%; /* H:142 S:76% L:30% - Dark green */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%; /* H:0 S:84.2% L:60.2% - Red */
+    --destructive-foreground: 0 0% 100%; /* H:0 S:0% L:100% - Pure white */
 
-    --border: 220 14% 90%;
-    --input: 220 14% 90%;
-    --ring: 142 76% 36%;
+    --orange: 41 94.6% 63.9%; /* H:41 S:94.6% L:63.9% - Orange */
+
+    --border: 220 14% 90%; /* H:220 S:14% L:90% - Light gray */
+    --input: 220 14% 90%; /* H:220 S:14% L:90% - Light gray */
+    --ring: 142 76% 36%; /* H:142 S:76% L:36% - Green */
 
     --radius: 0.5rem;
 
@@ -58,33 +60,33 @@
   }
 
   .dark {
-    --background: 220 14% 8%;
-    --foreground: 0 0% 98%;
+    --background: 220 14% 8%; /* H:220 S:14% L:8% - Almost black */
+    --foreground: 0 0% 98%; /* H:0 S:0% L:98% - Near white */
 
-    --card: 220 14% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 220 14% 10%; /* H:220 S:14% L:10% - Dark blue-gray */
+    --card-foreground: 0 0% 98%; /* H:0 S:0% L:98% - Near white */
 
-    --popover: 220 14% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 220 14% 10%; /* H:220 S:14% L:10% - Dark blue-gray */
+    --popover-foreground: 0 0% 98%; /* H:0 S:0% L:98% - Near white */
 
-    --primary: 142 70% 45%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 142 70% 45%; /* H:142 S:70% L:45% - Bright green */
+    --primary-foreground: 0 0% 100%; /* H:0 S:0% L:100% - Pure white */
 
-    --secondary: 142 30% 15%;
-    --secondary-foreground: 142 70% 80%;
+    --secondary: 142 30% 15%; /* H:142 S:30% L:15% - Very dark green */
+    --secondary-foreground: 142 70% 80%; /* H:142 S:70% L:80% - Light green */
 
-    --muted: 220 14% 15%;
-    --muted-foreground: 220 10% 60%;
+    --muted: 220 14% 15%; /* H:220 S:14% L:15% - Dark gray */
+    --muted-foreground: 220 10% 60%; /* H:220 S:10% L:60% - Medium-light gray */
 
-    --accent: 142 30% 15%;
-    --accent-foreground: 142 70% 80%;
+    --accent: 142 30% 15%; /* H:142 S:30% L:15% - Very dark green */
+    --accent-foreground: 142 70% 80%; /* H:142 S:70% L:80% - Light green */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%; /* H:0 S:62.8% L:30.6% - Dark red */
+    --destructive-foreground: 0 0% 98%; /* H:0 S:0% L:98% - Near white */
 
-    --border: 220 14% 18%;
-    --input: 220 14% 18%;
-    --ring: 142 70% 45%;
+    --border: 220 14% 18%; /* H:220 S:14% L:18% - Dark gray */
+    --input: 220 14% 18%; /* H:220 S:14% L:18% - Dark gray */
+    --ring: 142 70% 45%; /* H:142 S:70% L:45% - Bright green */
 
     --sidebar-background: 220 14% 8%;
     --sidebar-foreground: 0 0% 95%;

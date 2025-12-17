@@ -76,7 +76,7 @@ const TentangKami = () => {
         </section>
 
         {/* Story Section */}
-        <section className="py-20 bg-primary">
+        <section className="py-20 bg-orange">
           <div className="container px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
@@ -87,7 +87,7 @@ const TentangKami = () => {
                 potensi untuk memberikan dampak positif, dan tugas kami adalah memfasilitasi hal tersebut. Dengan teknologi dan
                 jaringan yang luas, kami menghubungkan mereka yang ingin membantu dengan mereka yang membutuhkan bantuan.
               </p>
-              <Button variant="heroOutline" size="lg" className="border-primary-foreground/30 text-primary hover:bg-primary-foreground/10 hover:border-primary-foreground">
+              <Button variant="heroOutline" size="lg" className="border-primary-foreground/30 text-muted-foreground hover:bg-primary-foreground/10 hover:border-primary-foreground">
                 Bergabung Bersama Kami
               </Button>
             </div>
