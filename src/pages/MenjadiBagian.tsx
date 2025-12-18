@@ -187,7 +187,7 @@ const MenjadiBagian = () => {
                 Daftarkan diri Anda sekarang dan mulai perjalanan volunteer Anda bersama Nusarupa.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="heroOutline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:border-primary-foreground">
+                <Button size="lg" variant="heroOutline" className="border-primary-foreground/30 text-primary hover:bg-primary-foreground/10 hover:border-primary-foreground">
                   Pelajari Lebih Lanjut
                 </Button>
                 <Button size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
