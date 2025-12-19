@@ -10,6 +10,7 @@ import MenjadiBagian from "./pages/MenjadiBagian";
 import Kontak from "./pages/Kontak";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
+import OTPVerification from "./pages/OTPVerification";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/menjadi-bagian" element={<MenjadiBagian />} />
           <Route path="/kontak" element={<Kontak />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/otp-verification" element={<OTPVerification />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
