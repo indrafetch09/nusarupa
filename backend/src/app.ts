@@ -1,15 +1,14 @@
-// The server.ts file is the entry point
 import express from "express";
+import authRoutes from "./routes/auth.routes";
+// import routes...
 
+const cors = require("cors");
 const app = express();
-const router = app.router
-const port = 5000;
 
-router.get('/', (req:any, res:any) => { 
-    res.send("Hello World")
-})
+app.use(cors());
+app.use(express.json());
 
-app.listen(port, () => {
-    console.log(`API jalan di port ${port}`)
-})
+app.use('api/auth', authRoutes);
+// app.use(routes here..)
 
+export default app;
