@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -6,10 +6,19 @@ import { Input } from "@/components/ui/input";
 import nusarupaLogo from "@/assets/icon-nusarupa.svg";
 
 const Auth = () => {
+    const navigate = useNavigate();
     const [ searchParams ] = useSearchParams();
     const initialMode = searchParams.get("mode") === "login" ? "login" : "register";
-    const [ mode, setMode ] = useState<"login" | "register">(initialMode)
+    const [ mode, setMode ] = useState<"login" | "register">(initialMode);
+    const [ email, setEmail ] = useState("");
+    const [ name, setName ] = useState("");
     useDocumentTitle(mode === "login" ? "Masuk" : "Daftar");
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Navigate to OTP page with email
+        navigate("/otp-verification", { state: { email } });
+    };
 
     return (
         <div className="min-h-screen bg-muted/30 flex items-center justify-center p-4">
@@ -28,11 +37,13 @@ const Auth = () => {
                 </h1>
 
                 {/* Form */}
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     <div className="space-y-4">
                         <Input
                             type="text"
                             placeholder="Email atau Nomer Telepon"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="border-0 border-b-2 border-border rounded-none px-0 py-3 focus-visible:ring-0 focus-visible:border-primary bg-transparent"
                         />
 
@@ -40,6 +51,8 @@ const Auth = () => {
                             <Input
                                 type="text"
                                 placeholder="Nama Lengkap"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                                 className="border-0 border-b-2 border-border rounded-none px-0 py-3 focus-visible:ring-0 focus-visible:border-primary bg-transparent"
                             />
                         )}
