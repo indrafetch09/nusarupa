@@ -15,6 +15,7 @@ import Auth from "./pages/Auth";
 import Home from "./pages/Home";
 import Galeri from "./pages/Galeri";
 import DetailKarya from "./pages/DetailKarya";
+import Kolaborasi from "./pages/Kolaborasi";
 
 const queryClient = new QueryClient();
 
@@ -63,7 +64,7 @@ const App = () => (
               path="/kolaborasi"
               element={
                 <ProtectedRoute>
-                  <Home />
+                  <Kolaborasi />
                 </ProtectedRoute>
               }
             />
