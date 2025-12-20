@@ -13,6 +13,7 @@ import Kontak from "./pages/Kontak";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
+import Galeri from "./pages/Galeri";
 
 const queryClient = new QueryClient();
 
@@ -45,7 +46,7 @@ const App = () => (
               path="/galeri"
               element={
                 <ProtectedRoute>
-                  <Home />
+                  <Galeri />
                 </ProtectedRoute>
               }
             />
