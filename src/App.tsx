@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
 import Galeri from "./pages/Galeri";
+import DetailKarya from "./pages/DetailKarya";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Galeri />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/karya/:id"
+              element={
+                <ProtectedRoute>
+                  <DetailKarya />
                 </ProtectedRoute>
               }
             />

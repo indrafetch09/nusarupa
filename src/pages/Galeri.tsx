@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -206,9 +207,9 @@ const Galeri = () => {
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 {filteredArtworks.map((artwork) => (
-                  <a
+                  <Link
                     key={artwork.id}
-                    href={`/karya/${artwork.id}`}
+                    to={`/karya/${artwork.id}`}
                     className="group bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300"
                   >
                     <div className="aspect-square overflow-hidden relative">
@@ -238,7 +239,7 @@ const Galeri = () => {
                         </span>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}
