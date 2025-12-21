@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import Navbar from "@/components/Navbar";
@@ -110,15 +111,17 @@ const Home = () => {
           <div className="container mx-auto max-w-4xl">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Rekomendasi Karya</h2>
-              <Button variant="ghost" size="sm" className="text-primary">
-                Lihat Semua <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
+              <Link to="/galeri">
+                <Button variant="ghost" size="sm" className="text-primary">
+                  Lihat Semua <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
+              </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {recommendations.map((item) => (
-                <a
+                <Link
                   key={item.id}
-                  href={`/karya/${item.id}`}
+                  to={`/karya/${item.id}`}
                   className="group bg-card rounded-xl overflow-hidden border border-border hover:shadow-md transition-shadow"
                 >
                   <div className="aspect-[4/3] overflow-hidden">
@@ -132,7 +135,7 @@ const Home = () => {
                     <h3 className="font-medium text-foreground">{item.title}</h3>
                     <p className="text-sm text-muted-foreground">{item.author}</p>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -143,15 +146,17 @@ const Home = () => {
           <div className="container mx-auto max-w-4xl">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Tolong Menolong 💚</h2>
-              <Button variant="ghost" size="sm" className="text-primary">
-                Lihat Semua <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
+              <Link to="/donasi">
+                <Button variant="ghost" size="sm" className="text-primary">
+                  Lihat Semua <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
+              </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {donationItems.map((item) => (
-                <a
+                <Link
                   key={item.id}
-                  href={`/donasi/${item.id}`}
+                  to={`/donasi/${item.id}`}
                   className="group bg-card rounded-xl overflow-hidden border border-border hover:shadow-md transition-shadow"
                 >
                   <div className="aspect-[2/1] overflow-hidden">
@@ -176,7 +181,7 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

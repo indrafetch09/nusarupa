@@ -16,6 +16,13 @@ import Home from "./pages/Home";
 import Galeri from "./pages/Galeri";
 import DetailKarya from "./pages/DetailKarya";
 import Kolaborasi from "./pages/Kolaborasi";
+import Donasi from "./pages/Donasi";
+import DetailDonasi from "./pages/DetailDonasi";
+import ProsesDonasi from "./pages/ProsesDonasi";
+import BerhasilDonasi from "./pages/BerhasilDonasi";
+import DetailAktivitas from "./pages/DetailAktivitas";
+import BerhasilDaftarEvent from "./pages/BerhasilDaftarEvent";
+import Profil from "./pages/Profil";
 
 const queryClient = new QueryClient();
 
@@ -68,22 +75,13 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/donasi"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/profil"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/donasi" element={<ProtectedRoute><Donasi /></ProtectedRoute>} />
+            <Route path="/donasi/:id" element={<ProtectedRoute><DetailDonasi /></ProtectedRoute>} />
+            <Route path="/donasi/:id/proses" element={<ProtectedRoute><ProsesDonasi /></ProtectedRoute>} />
+            <Route path="/donasi/:id/berhasil" element={<ProtectedRoute><BerhasilDonasi /></ProtectedRoute>} />
+            <Route path="/aktivitas/:id" element={<ProtectedRoute><DetailAktivitas /></ProtectedRoute>} />
+            <Route path="/aktivitas/:id/daftar" element={<ProtectedRoute><BerhasilDaftarEvent /></ProtectedRoute>} />
+            <Route path="/profil" element={<ProtectedRoute><Profil /></ProtectedRoute>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
