@@ -131,8 +131,8 @@ const artworks = [
 
 const Galeri = () => {
   useDocumentTitle("Galeri Karya");
-  const [activeCategory, setActiveCategory] = useState("semua");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [ activeCategory, setActiveCategory ] = useState("semua");
+  const [ searchQuery, setSearchQuery ] = useState("");
 
   const filteredArtworks = artworks.filter((artwork) => {
     const matchesCategory = activeCategory === "semua" || artwork.category === activeCategory;
@@ -151,7 +151,7 @@ const Galeri = () => {
         <section className="bg-background py-10 px-4 border-b border-border">
           <div className="container mx-auto max-w-6xl">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-              Galeri Karya 🎨
+              Galeri Karya
             </h1>
             <p className="text-muted-foreground mb-6">
               Jelajahi berbagai karya seni dari seniman Nusantara

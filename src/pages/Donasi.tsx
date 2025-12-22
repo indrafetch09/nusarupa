@@ -96,8 +96,8 @@ const formatCurrency = (amount: number) => {
 
 const Donasi = () => {
   useDocumentTitle("Donasi");
-  const [activeCategory, setActiveCategory] = useState("semua");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [ activeCategory, setActiveCategory ] = useState("semua");
+  const [ searchQuery, setSearchQuery ] = useState("");
 
   const filteredCampaigns = donationCampaigns.filter((campaign) => {
     const matchesCategory = activeCategory === "semua" || campaign.category === activeCategory;
@@ -116,7 +116,7 @@ const Donasi = () => {
         <section className="bg-gradient-to-b from-primary/5 to-background py-12 px-4 border-b border-border">
           <div className="container mx-auto max-w-6xl">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 animate-fade-up">
-              Tolong Menolong 💚
+              Tolong Menolong
             </h1>
             <p className="text-muted-foreground mb-6 animate-fade-up-delay">
               Berikan dukungan untuk seniman dan komunitas seni Indonesia

@@ -55,21 +55,21 @@ const Home = () => {
   useDocumentTitle("Beranda");
   const { user } = useAuth();
 
-  const firstName = user?.user_metadata?.full_name?.split(" ")[0] || "Kawan";
+  const firstName = user?.user_metadata?.full_name?.split(" ")[ 0 ] || "Kawan";
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <main className="pt-16">
         {/* Hero Section */}
         <section className="bg-background py-12 px-4">
           <div className="container mx-auto max-w-4xl">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-              Haii {firstName} 👋
+              Haii {firstName}
             </h1>
             <p className="text-lg text-muted-foreground mb-8">
-              mau aktif kegiatan apa hari ini? 🎨
+              mau aktif kegiatan apa hari ini?
             </p>
 
             {/* Search Bar */}
@@ -145,7 +145,7 @@ const Home = () => {
         <section className="py-10 px-4 bg-muted/30">
           <div className="container mx-auto max-w-4xl">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-foreground">Tolong Menolong 💚</h2>
+              <h2 className="text-xl font-semibold text-foreground">Tolong Menolong</h2>
               <Link to="/donasi">
                 <Button variant="ghost" size="sm" className="text-primary">
                   Lihat Semua <ChevronRight className="w-4 h-4 ml-1" />

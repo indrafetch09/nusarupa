@@ -135,7 +135,7 @@ const activities = [
 
 const getStatusBadge = (status: string, participants: number, maxParticipants: number) => {
   const percentage = (participants / maxParticipants) * 100;
-  
+
   if (status === "closed" || percentage >= 100) {
     return { text: "Penuh", className: "bg-destructive/10 text-destructive" };
   }
@@ -147,8 +147,8 @@ const getStatusBadge = (status: string, participants: number, maxParticipants: n
 
 const Kolaborasi = () => {
   useDocumentTitle("Kolaborasi & Aktivitas");
-  const [activeCategory, setActiveCategory] = useState("semua");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [ activeCategory, setActiveCategory ] = useState("semua");
+  const [ searchQuery, setSearchQuery ] = useState("");
 
   const filteredActivities = activities.filter((activity) => {
     const matchesCategory = activeCategory === "semua" || activity.category === activeCategory;
@@ -168,7 +168,7 @@ const Kolaborasi = () => {
         <section className="bg-gradient-to-b from-primary/5 to-background py-12 px-4 border-b border-border">
           <div className="container mx-auto max-w-6xl">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 animate-fade-up">
-              Kolaborasi & Aktivitas 🤝
+              Kolaborasi & Aktivitas
             </h1>
             <p className="text-muted-foreground mb-6 animate-fade-up-delay">
               Temukan workshop, pameran, dan event seni dari komunitas Nusarupa
@@ -226,7 +226,7 @@ const Kolaborasi = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredActivities.map((activity) => {
                   const statusBadge = getStatusBadge(activity.status, activity.participants, activity.maxParticipants);
-                  
+
                   return (
                     <Link
                       key={activity.id}
@@ -260,7 +260,7 @@ const Kolaborasi = () => {
                         <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
                           {activity.title}
                         </h3>
-                        
+
                         <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                           {activity.description}
                         </p>
@@ -286,7 +286,7 @@ const Kolaborasi = () => {
                           <div className="flex items-center gap-2">
                             <Avatar className="w-8 h-8">
                               <AvatarImage src={activity.organizer.avatar} alt={activity.organizer.name} />
-                              <AvatarFallback>{activity.organizer.name[0]}</AvatarFallback>
+                              <AvatarFallback>{activity.organizer.name[ 0 ]}</AvatarFallback>
                             </Avatar>
                             <span className="text-sm text-foreground font-medium">
                               {activity.organizer.name}
