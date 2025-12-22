@@ -23,10 +23,11 @@ const values = [
 ];
 
 const team = [
-  { name: "Ahmad Rizki", role: "Founder & CEO", initial: "AR" },
-  { name: "Siti Nurhaliza", role: "Head of Programs", initial: "SN" },
-  { name: "Budi Santoso", role: "Community Lead", initial: "BS" },
-  { name: "Maya Dewi", role: "Partnership Manager", initial: "MD" },
+  { name: "Harindra Wahyu Arifudin", role: "Ketua Nusarupa", initial: "HWA" },
+  { name: "Marsel Daviano", role: "Anggota Nusarupa", initial: "MD" },
+  { name: "Agil Nur Iqbal", role: "Anggota Nusarupa", initial: "ANI" },
+  { name: "Miftahul Jannah", role: "Anggota Nusarupa", initial: "MJ" },
+  { name: "An Nisa Utami", role: "Anggota Nusarupa", initial: "ANU" },
 ];
 
 const TentangKami = () => {

@@ -10,22 +10,22 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Alamat",
-    details: ["Jl. Sudirman No. 123", "Jakarta Pusat, 10110", "Indonesia"],
+    details: [ "Jl. Aria Santika No. 40A, RT05/RW011", "Kota Tangerang, Banten 15114", "Indonesia" ],
   },
   {
     icon: Phone,
     title: "Telepon",
-    details: ["+62 21 1234 5678", "+62 812 3456 7890"],
+    details: [ "+62 21 5572 6558 5678", "+62 851 5886 4917" ],
   },
   {
     icon: Mail,
     title: "Email",
-    details: ["info@nusarupa.id", "volunteer@nusarupa.id"],
+    details: [ "nusarupa7@gmail.com", "@nusarupa_id" ],
   },
   {
     icon: Clock,
     title: "Jam Operasional",
-    details: ["Senin - Jumat: 09:00 - 17:00", "Sabtu: 09:00 - 13:00"],
+    details: [ "Senin - Jumat: 09:00 - 17:00", "Sabtu: 09:00 - 13:00" ],
   },
 ];
 

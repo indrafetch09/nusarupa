@@ -1,5 +1,5 @@
 const stats = [
-  { value: "10K+", label: "Relawan Aktif" },
+  { value: "2 0K+", label: "Relawan Aktif" },
   { value: "500+", label: "Program Selesai" },
   { value: "34", label: "Provinsi Terjangkau" },
   { value: "1M+", label: "Masyarakat Terbantu" },

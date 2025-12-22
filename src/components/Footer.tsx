@@ -41,9 +41,10 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Kontak</h4>
             <ul className="space-y-2">
-              <li className="text-sm text-muted-foreground">info@nusarupa.id</li>
-              <li className="text-sm text-muted-foreground">+62 21 1234 5678</li>
-              <li className="text-sm text-muted-foreground">Jakarta, Indonesia</li>
+              <li className="text-sm text-muted-foreground">nusarupa7@gmail.com</li>
+              <li className="text-sm text-muted-foreground">@nusarupa_id</li>
+              <li className="text-sm text-muted-foreground">+62 21 5572 6558</li>
+              <li className="text-sm text-muted-foreground">Kota Tangerang, Indonesia</li>
             </ul>
           </div>
         </div>
