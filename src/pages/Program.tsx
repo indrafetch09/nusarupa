@@ -5,6 +5,7 @@ import { Calendar, MapPin, Users, Clock, ArrowRight } from "lucide-react";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import baktiSosial from "@/assets/bakti-sosial.png";
 
 const programs = [
   {
@@ -34,7 +35,7 @@ const programs = [
     location: "Jawa Barat, Indonesia",
     date: "15-17 Feb 2024",
     participants: 30,
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=600&h=400&fit=crop",
     description: "Pemeriksaan kesehatan gratis dan penyuluhan gizi untuk masyarakat desa.",
   },
   {
