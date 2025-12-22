@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Users, Heart, Award, Sparkles, ArrowRight } from "lucide-react";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { Link } from "react-router-dom";
 
 const benefits = [
   {
@@ -75,10 +76,13 @@ const MenjadiBagian = () => {
               <p className="text-lg text-muted-foreground mb-8 animate-fade-up-delay">
                 Bergabunglah dengan ribuan relawan lainnya dan jadilah bagian dari perubahan positif di Indonesia.
               </p>
-              <Button size="lg" className="animate-fade-up-delay group">
-                Daftar Sekarang
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <Link to="/auth?mode=register">
+                <Button size="lg" className="animate-fade-up-delay group">
+                  Daftar Sekarang
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+
+              </Link>
             </div>
           </div>
         </section>
@@ -171,28 +175,6 @@ const MenjadiBagian = () => {
                     </li>
                   ))}
                 </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-20 bg-primary">
-          <div className="container px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
-                Siap Untuk Berkontribusi?
-              </h2>
-              <p className="text-lg text-primary-foreground/90 mb-8">
-                Daftarkan diri Anda sekarang dan mulai perjalanan volunteer Anda bersama Nusarupa.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="heroOutline" className="border-primary-foreground/30 text-primary hover:bg-primary-foreground/10 hover:border-primary-foreground">
-                  Pelajari Lebih Lanjut
-                </Button>
-                <Button size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
-                  Daftar Sekarang
-                </Button>
               </div>
             </div>
           </div>

@@ -46,7 +46,7 @@ const TentangKami = () => {
               </h1>
               <p className="text-lg text-muted-foreground animate-fade-up-delay">
                 Kami adalah platform yang menghubungkan relawan dengan berbagai program sosial di seluruh Indonesia.
-                Didirikan pada tahun 2020, Nusarupa telah membantu ribuan relawan untuk berkontribusi dalam berbagai kegiatan sosial.
+                Didirikan pada tahun 2025, Nusarupa telah membantu ribuan relawan untuk berkontribusi dalam berbagai kegiatan sosial.
               </p>
             </div>
           </div>

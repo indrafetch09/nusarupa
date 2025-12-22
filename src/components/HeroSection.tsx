@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import heroCommunity from "@/assets/nusarupa-hero-background.webp";
+import { Link } from "react-router-dom";
+
 
 const HeroSection = () => {
   return (
@@ -28,12 +30,16 @@ const HeroSection = () => {
         </p>
 
         <div className="animate-fade-up-delay-2 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button variant="hero" size="lg">
-            Gabung Sekarang
-          </Button>
-          <Button variant="heroOutline" size="lg">
-            Pelajari lebih lanjut
-          </Button>
+          <Link to="/auth?mode=register">
+            <Button variant="hero" size="lg">
+              Gabung Sekarang
+            </Button>
+          </Link>
+          <Link to="/tentang-kami">
+            <Button variant="heroOutline" size="lg">
+              Pelajari lebih lanjut
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

@@ -3,6 +3,8 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Users, Clock, ArrowRight } from "lucide-react";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const programs = [
   {
@@ -71,6 +73,12 @@ const categories = [ "Semua", "Pendidikan", "Lingkungan", "Kesehatan", "Infrastr
 
 const Program = () => {
   useDocumentTitle("Program");
+  const [ activeCategory, setActiveCategory ] = useState("Semua");
+  const filteredPrograms = programs.filter((program) => {
+    if (activeCategory === "Semua") return true;
+    return program.category === activeCategory;
+  })
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -98,9 +106,10 @@ const Program = () => {
               {categories.map((category, index) => (
                 <Button
                   key={index}
-                  variant={index === 0 ? "default" : "outline"}
+                  variant={activeCategory === category ? "default" : "outline"}
                   size="sm"
                   className="rounded-full"
+                  onClick={() => setActiveCategory(category)}
                 >
                   {category}
                 </Button>
@@ -113,7 +122,7 @@ const Program = () => {
         <section className="py-16">
           <div className="container px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {programs.map((program) => (
+              {filteredPrograms.map((program) => (
                 <div
                   key={program.id}
                   className="bg-background rounded-2xl border border-border/50 overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all duration-300 group"
@@ -151,10 +160,12 @@ const Program = () => {
                         <span>{program.participants} relawan dibutuhkan</span>
                       </div>
                     </div>
-                    <Button className="w-full group/btn">
-                      Daftar Sekarang
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                    </Button>
+                    <Link to="/auth?mode=register">
+                      <Button className="w-full group/btn">
+                        Daftar Sekarang
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -172,9 +183,11 @@ const Program = () => {
               <p className="text-muted-foreground mb-6">
                 Hubungi kami untuk mendiskusikan kebutuhan volunteer Anda atau ajukan program baru.
               </p>
-              <Button variant="outline" size="lg">
-                Hubungi Kami
-              </Button>
+              <Link to="/kontak">
+                <Button variant="outline" size="lg">
+                  Hubungi Kami
+                </Button>
+              </Link>
             </div>
           </div>
         </section>

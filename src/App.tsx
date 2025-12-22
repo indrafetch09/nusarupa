@@ -52,7 +52,7 @@ const App = () => (
               <Route path="/menjadi-bagian" element={<MenjadiBagian />} />
               <Route path="/kontak" element={<Kontak />} />
               <Route path="/auth" element={<Auth />} />
-              
+
               {/* Protected routes */}
               <Route
                 path="/home"
@@ -101,7 +101,7 @@ const App = () => (
               <Route path="/admin/aktivitas" element={<AdminProtectedRoute><AdminAktivitas /></AdminProtectedRoute>} />
               <Route path="/admin/donasi" element={<AdminProtectedRoute><AdminDonasi /></AdminProtectedRoute>} />
               <Route path="/admin/profil" element={<AdminProtectedRoute><AdminProfil /></AdminProtectedRoute>} />
-              
+
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   return (
@@ -12,12 +13,17 @@ const CTASection = () => {
             Bergabunglah dengan ribuan relawan lainnya dan jadilah bagian dari perubahan positif untuk Indonesia.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg">
-              Daftar Sekarang
-            </Button>
-            <Button variant="outline" size="lg">
-              Hubungi Kami
-            </Button>
+            <Link to="/auth?mode=register">
+              <Button size="lg">
+                Daftar Sekarang
+              </Button>
+            </Link>
+            <Link to="/kontak">
+              <Button variant="outline" size="lg">
+                Hubungi Kami
+              </Button>
+            </Link>
+
           </div>
         </div>
       </div>

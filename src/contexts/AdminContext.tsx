@@ -16,8 +16,8 @@ export const useAdmin = () => useContext(AdminContext);
 
 export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [ isAdmin, setIsAdmin ] = useState(false);
+  const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
     const checkAdminRole = async () => {
@@ -45,12 +45,12 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
         console.error("Error checking admin role:", error);
         setIsAdmin(false);
       }
-      
+
       setLoading(false);
     };
 
     checkAdminRole();
-  }, [user]);
+  }, [ user ]);
 
   return (
     <AdminContext.Provider value={{ isAdmin, loading }}>
