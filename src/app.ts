@@ -1,5 +1,5 @@
 import express from "express";
-import authRoutes from "./routes/auth.routes";
+import authRoutes from "../backend/routes/auth.routes";
 // import routes...
 
 const cors = require("cors");
