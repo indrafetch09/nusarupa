@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AdminProvider } from "@/contexts/AdminContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import AdminProtectedRoute from "@/components/AdminProtectedRoute";
 import Index from "./pages/Index";
 import TentangKami from "./pages/TentangKami";
 import Program from "./pages/Program";
@@ -28,6 +27,7 @@ import Profil from "./pages/Profil";
 
 // Admin pages
 import AdminLogin from "./pages/admin/AdminLogin";
+import AdminNavbar from "./components/AdminNavbar";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminKarya from "./pages/admin/AdminKarya";
 import AdminAktivitas from "./pages/admin/AdminAktivitas";
@@ -35,6 +35,15 @@ import AdminDonasi from "./pages/admin/AdminDonasi";
 import AdminProfil from "./pages/admin/AdminProfil";
 
 const queryClient = new QueryClient();
+
+const AdminLayout = ({ children }: { children: React.ReactNode }) => (
+  <>
+    <AdminNavbar />
+    <main className="container mx-auto px-4 py-8 pt-24">
+      {children}
+    </main>
+  </>
+);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -96,11 +105,33 @@ const App = () => (
 
               {/* Admin routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>} />
-              <Route path="/admin/karya" element={<AdminProtectedRoute><AdminKarya /></AdminProtectedRoute>} />
-              <Route path="/admin/aktivitas" element={<AdminProtectedRoute><AdminAktivitas /></AdminProtectedRoute>} />
-              <Route path="/admin/donasi" element={<AdminProtectedRoute><AdminDonasi /></AdminProtectedRoute>} />
-              <Route path="/admin/profil" element={<AdminProtectedRoute><AdminProfil /></AdminProtectedRoute>} />
+              <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+              <Route path="/admin/karya" element={<ProtectedRoute><AdminKarya /></ProtectedRoute>} />
+              <Route path="/admin/aktivitas" element={<ProtectedRoute><AdminAktivitas /></ProtectedRoute>} />
+              <Route path="/admin/donasi" element={<ProtectedRoute><AdminDonasi /></ProtectedRoute>} />
+              <Route path="/admin/profil" element={<ProtectedRoute><AdminProfil /></ProtectedRoute>} />
+
+              <Route path="/admin/login" element={<AdminLogin />} />
+
+              <Route path="/admin" element={
+                <AdminLayout><AdminDashboard /></AdminLayout>
+              } />
+
+              <Route path="/admin/karya" element={
+                <AdminLayout><AdminKarya /></AdminLayout>
+              } />
+
+              <Route path="/admin/aktivitas" element={
+                <AdminLayout><AdminAktivitas /></AdminLayout>
+              } />
+
+              <Route path="/admin/donasi" element={
+                <AdminLayout><AdminDonasi /></AdminLayout>
+              } />
+
+              <Route path="/admin/profil" element={
+                <AdminLayout><AdminProfil /></AdminLayout>
+              } />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

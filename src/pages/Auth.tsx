@@ -24,15 +24,15 @@ const Auth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { signIn, signUp, user, loading } = useAuth();
-  const [searchParams] = useSearchParams();
+  const [ searchParams ] = useSearchParams();
   const initialMode = searchParams.get("mode") === "login" ? "login" : "register";
-  const [mode, setMode] = useState<"login" | "register">(initialMode);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [ mode, setMode ] = useState<"login" | "register">(initialMode);
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ name, setName ] = useState("");
+  const [ showPassword, setShowPassword ] = useState(false);
+  const [ isSubmitting, setIsSubmitting ] = useState(false);
+  const [ errors, setErrors ] = useState<Record<string, string>>({});
 
   useDocumentTitle(mode === "login" ? "Masuk" : "Daftar");
 
@@ -41,7 +41,7 @@ const Auth = () => {
     if (user && !loading) {
       navigate("/home");
     }
-  }, [user, loading, navigate]);
+  }, [ user, loading, navigate ]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,8 +54,8 @@ const Auth = () => {
         if (!result.success) {
           const fieldErrors: Record<string, string> = {};
           result.error.errors.forEach((err) => {
-            if (err.path[0]) {
-              fieldErrors[err.path[0] as string] = err.message;
+            if (err.path[ 0 ]) {
+              fieldErrors[ err.path[ 0 ] as string ] = err.message;
             }
           });
           setErrors(fieldErrors);
@@ -92,8 +92,8 @@ const Auth = () => {
         if (!result.success) {
           const fieldErrors: Record<string, string> = {};
           result.error.errors.forEach((err) => {
-            if (err.path[0]) {
-              fieldErrors[err.path[0] as string] = err.message;
+            if (err.path[ 0 ]) {
+              fieldErrors[ err.path[ 0 ] as string ] = err.message;
             }
           });
           setErrors(fieldErrors);
@@ -172,9 +172,8 @@ const Auth = () => {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`border-0 border-b-2 rounded-none px-0 py-3 focus-visible:ring-0 focus-visible:border-primary bg-transparent ${
-                  errors.email ? "border-destructive" : "border-border"
-                }`}
+                className={`border-0 border-b-2 rounded-none px-0 py-3 focus-visible:ring-0 focus-visible:border-primary bg-transparent ${errors.email ? "border-destructive" : "border-border"
+                  }`}
               />
               {errors.email && (
                 <p className="text-xs text-destructive mt-1">{errors.email}</p>
@@ -188,9 +187,8 @@ const Auth = () => {
                   placeholder="Nama Lengkap"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className={`border-0 border-b-2 rounded-none px-0 py-3 focus-visible:ring-0 focus-visible:border-primary bg-transparent ${
-                    errors.name ? "border-destructive" : "border-border"
-                  }`}
+                  className={`border-0 border-b-2 rounded-none px-0 py-3 focus-visible:ring-0 focus-visible:border-primary bg-transparent ${errors.name ? "border-destructive" : "border-border"
+                    }`}
                 />
                 {errors.name && (
                   <p className="text-xs text-destructive mt-1">{errors.name}</p>
@@ -204,9 +202,8 @@ const Auth = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`border-0 border-b-2 rounded-none px-0 py-3 pr-10 focus-visible:ring-0 focus-visible:border-primary bg-transparent ${
-                  errors.password ? "border-destructive" : "border-border"
-                }`}
+                className={`border-0 border-b-2 rounded-none px-0 py-3 pr-10 focus-visible:ring-0 focus-visible:border-primary bg-transparent ${errors.password ? "border-destructive" : "border-border"
+                  }`}
               />
               <button
                 type="button"
