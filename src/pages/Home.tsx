@@ -58,6 +58,7 @@ const Home = () => {
   const firstName = user?.user_metadata?.full_name?.split(" ")[ 0 ] || "Kawan";
   // TODO: add working searchQuery
 
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />

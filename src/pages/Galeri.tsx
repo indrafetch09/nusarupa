@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import Navbar from "@/components/Navbar";
@@ -164,7 +164,7 @@ const Galeri = () => {
                 type="search"
                 placeholder="Cari karya atau seniman..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
                 className="pl-12 h-12 rounded-full border-border bg-muted/50"
               />
             </div>
