@@ -3,6 +3,8 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Target, Eye, Heart } from "lucide-react";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 
 const values = [
   {
@@ -23,11 +25,11 @@ const values = [
 ];
 
 const team = [
-  { name: "Harindra Wahyu Arifudin", role: "Ketua Nusarupa", initial: "HWA" },
-  { name: "Marsel Daviano", role: "Anggota Nusarupa", initial: "MD" },
-  { name: "Agil Nur Iqbal", role: "Anggota Nusarupa", initial: "ANI" },
-  { name: "Miftahul Jannah", role: "Anggota Nusarupa", initial: "MJ" },
-  { name: "An Nisa Utami", role: "Anggota Nusarupa", initial: "ANU" },
+  { name: "Harindra Wahyu Arifudin", role: "Author Nusarupa", avatar: "src/assets/teams/Harindra.png" },
+  { name: "Marsel Daviano", role: "Author Nusarupa", avatar: "src/assets/teams/Marsel.png" },
+  { name: "Agil Nur Iqbal", role: "Author Nusarupa", avatar: "src/assets/teams/Iqbal.png" },
+  { name: "Miftahul Jannah", role: "Author Nusarupa", avatar: "src/assets/teams/Mj.png" },
+  { name: "An Nisa Utami", role: "Author Nusarupa", avatar: "src/assets/teams/Ami.png" },
 ];
 
 const TentangKami = () => {
@@ -107,11 +109,13 @@ const TentangKami = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-12 max-w-4xl mx-auto">
               {team.map((member, index) => (
-                <div key={index} className="text-center group">
+                <div key={index} className="text-center group w-48">
                   <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                    <span className="text-2xl font-bold text-primary">{member.initial}</span>
+                    <Avatar className="h-full w-full">
+                      <AvatarImage src={member.avatar} alt={member.avatar} />
+                    </Avatar>
                   </div>
                   <h3 className="font-semibold text-foreground">{member.name}</h3>
                   <p className="text-sm text-muted-foreground">{member.role}</p>

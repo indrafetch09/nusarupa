@@ -5,7 +5,6 @@ import { Calendar, MapPin, Users, Clock, ArrowRight } from "lucide-react";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import baktiSosial from "@/assets/bakti-sosial.png";
 
 const programs = [
   {
