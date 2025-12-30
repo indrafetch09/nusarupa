@@ -1,28 +1,126 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import AdminNavbar from "@/components/AdminNavbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { User, Edit, Save, X, Shield } from "lucide-react";
+import { User, Edit, Save, X, Shield, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
+
+type UserProfile = Database[ "public" ][ "Tables" ][ "profiles" ][ "Row" ]
 
 const AdminProfil = () => {
   useDocumentTitle("Profil Admin");
   const { toast } = useToast();
   const { user } = useAuth();
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    name: user?.user_metadata?.full_name || "Admin Nusarupa",
-    email: user?.email || "admin@nusarupa.id",
-    bio: "Administrator platform Nusarupa",
+  const [ isEditing, setIsEditing ] = useState(false);
+  const [ loading, setLoading ] = useState(true);
+  const [ saving, setSaving ] = useState(false);
+  const [ profile, setProfile ] = useState<UserProfile | null>(null);
+  const [ formData, setFormData ] = useState({
+    full_name: "",
+    bio: "",
   });
 
-  const handleSave = () => {
-    setIsEditing(false);
-    toast({ title: "Profil berhasil diperbarui" });
+  useEffect(() => {
+    if (user) {
+      fetchProfile();
+    }
+  }, [ user ]);
+
+  const fetchProfile = async () => {
+    if (!user) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        throw error;
+      }
+
+      if (data) {
+        setProfile(data);
+        setFormData({
+          full_name: data.full_name || user.user_metadata?.full_name || "",
+          bio: data.bio || "",
+        });
+      } else {
+        // Create initial profile if doesn't exist
+        setFormData({
+          full_name: user.user_metadata?.full_name || "",
+          bio: "",
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching profile:', err);
+      toast({
+        title: "Error",
+        description: "Gagal memuat profil",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!user || saving) return;
+
+    try {
+      setSaving(true);
+
+      const profileData = {
+        user_id: user.id,
+        full_name: formData.full_name,
+        bio: formData.bio || null,
+        role: 'admin' as const,
+        updated_at: new Date().toISOString(),
+      };
+
+      if (profile) {
+        // Update existing profile
+        const { error } = await supabase
+          .from('profiles')
+          .update(profileData)
+          .eq('user_id', user.id);
+
+        if (error) throw error;
+      } else {
+        // Create new profile
+        const { error } = await supabase
+          .from('profiles')
+          .insert([ { ...profileData, created_at: new Date().toISOString() } ]);
+
+        if (error) throw error;
+      }
+
+      // Update auth metadata
+      await supabase.auth.updateUser({
+        data: { full_name: formData.full_name }
+      });
+
+      setIsEditing(false);
+      fetchProfile();
+      toast({ title: "Profil berhasil diperbarui" });
+    } catch (err) {
+      console.error('Error saving profile:', err);
+      toast({
+        title: "Error",
+        description: "Gagal menyimpan profil",
+        variant: "destructive"
+      });
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -48,8 +146,10 @@ const AdminProfil = () => {
                   <User className="w-12 h-12 text-primary" />
                 </div>
                 <div className="text-center md:text-left">
-                  <h2 className="text-xl font-semibold text-foreground">{formData.name}</h2>
-                  <p className="text-muted-foreground">{formData.email}</p>
+                  <h2 className="text-xl font-semibold text-foreground">
+                    {loading ? "Loading..." : formData.full_name || "Admin Nusarupa"}
+                  </h2>
+                  <p className="text-muted-foreground">{user?.email || "admin@nusarupa.id"}</p>
                   <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
                     <Shield className="h-4 w-4 text-primary" />
                     <span className="text-sm font-medium text-primary">Admin</span>
@@ -65,8 +165,8 @@ const AdminProfil = () => {
                       Nama
                     </label>
                     <Input
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      value={formData.full_name}
+                      onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
                     />
                   </div>
                   <div>
@@ -75,9 +175,13 @@ const AdminProfil = () => {
                     </label>
                     <Input
                       type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      value={user?.email || ""}
+                      disabled
+                      className="bg-muted"
                     />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Email tidak dapat diubah
+                    </p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-foreground mb-2 block">
@@ -90,9 +194,18 @@ const AdminProfil = () => {
                     />
                   </div>
                   <div className="flex gap-3">
-                    <Button onClick={handleSave} className="gap-2">
-                      <Save className="h-4 w-4" />
-                      Simpan
+                    <Button onClick={handleSave} disabled={saving} className="gap-2">
+                      {saving ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          Menyimpan...
+                        </>
+                      ) : (
+                        <>
+                          <Save className="h-4 w-4" />
+                          Simpan
+                        </>
+                      )}
                     </Button>
                     <Button variant="outline" onClick={() => setIsEditing(false)} className="gap-2">
                       <X className="h-4 w-4" />
@@ -104,15 +217,19 @@ const AdminProfil = () => {
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-sm font-medium text-muted-foreground mb-1">Nama</h3>
-                    <p className="text-foreground">{formData.name}</p>
+                    <p className="text-foreground">
+                      {loading ? "Loading..." : formData.full_name || "Admin Nusarupa"}
+                    </p>
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-muted-foreground mb-1">Email</h3>
-                    <p className="text-foreground">{formData.email}</p>
+                    <p className="text-foreground">{user?.email || "admin@nusarupa.id"}</p>
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-muted-foreground mb-1">Bio</h3>
-                    <p className="text-foreground">{formData.bio}</p>
+                    <p className="text-foreground">
+                      {loading ? "Loading..." : formData.bio || "Belum ada bio"}
+                    </p>
                   </div>
                   <Button onClick={() => setIsEditing(true)} variant="outline" className="gap-2">
                     <Edit className="h-4 w-4" />

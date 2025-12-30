@@ -5,78 +5,109 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Edit, Trash2, X } from "lucide-react";
+import { Plus, Edit, Trash2, X, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useArtworks } from "@/hooks/useArtworks";
+import type { Database } from "@/integrations/supabase/types";
 
-const initialArtworks = [
-  {
-    id: 1,
-    title: "Batik Kontemporer",
-    author: "Siti Rahayu",
-    description: "Karya batik modern dengan motif tradisional",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-  },
-  {
-    id: 2,
-    title: "Lukisan Alam",
-    author: "Budi Santoso",
-    description: "Lukisan pemandangan alam Indonesia",
-    image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&h=300&fit=crop",
-  },
-  {
-    id: 3,
-    title: "Kerajinan Rotan",
-    author: "Made Wira",
-    description: "Kerajinan tangan dari rotan asli Bali",
-    image: "https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=400&h=300&fit=crop",
-  },
+type Artwork = Database[ "public" ][ "Tables" ][ "artworks" ][ "Row" ]
+
+const categories = [
+  { id: "lukisan", label: "Lukisan" },
+  { id: "batik", label: "Batik" },
+  { id: "kerajinan", label: "Kerajinan" },
+  { id: "patung", label: "Patung" },
+  { id: "fotografi", label: "Fotografi" },
+  { id: "digital", label: "Seni Digital" },
 ];
 
 const AdminKarya = () => {
   useDocumentTitle("Kelola Karya - Admin");
   const { toast } = useToast();
-  const [artworks, setArtworks] = useState(initialArtworks);
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [formData, setFormData] = useState({
+  const { artworks, loading, error, createArtwork, updateArtwork, deleteArtwork, uploadImage } = useArtworks();
+  const [ showForm, setShowForm ] = useState(false);
+  const [ editingId, setEditingId ] = useState<string | null>(null);
+  const [ formData, setFormData ] = useState({
     title: "",
     author: "",
     description: "",
-    image: "",
+    image_url: "",
+    category: "lukisan",
   });
+  const [ isSubmitting, setIsSubmitting ] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingId) {
-      setArtworks(artworks.map((a) => (a.id === editingId ? { ...formData, id: editingId } : a)));
-      toast({ title: "Karya berhasil diperbarui" });
-    } else {
-      setArtworks([...artworks, { ...formData, id: Date.now() }]);
-      toast({ title: "Karya berhasil ditambahkan" });
+    if (isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+
+      const artworkData = {
+        title: formData.title,
+        author: formData.author,
+        description: formData.description || null,
+        image_url: formData.image_url || null,
+        category: formData.category,
+      };
+
+      if (editingId) {
+        await updateArtwork(editingId, artworkData);
+      } else {
+        await createArtwork(artworkData);
+      }
+      resetForm();
+    } catch (err) {
+      console.error("Error saving artwork:", err);
+    } finally {
+      setIsSubmitting(false);
     }
-    resetForm();
   };
 
-  const handleEdit = (artwork: typeof initialArtworks[0]) => {
+  const handleEdit = (artwork: Artwork) => {
     setFormData({
       title: artwork.title,
       author: artwork.author,
-      description: artwork.description,
-      image: artwork.image,
+      description: artwork.description || "",
+      image_url: artwork.image_url || "",
+      category: artwork.category,
     });
     setEditingId(artwork.id);
     setShowForm(true);
   };
 
-  const handleDelete = (id: number) => {
-    setArtworks(artworks.filter((a) => a.id !== id));
-    toast({ title: "Karya berhasil dihapus" });
+  const handleDelete = async (id: string) => {
+    if (window.confirm("Apakah Anda yakin ingin menghapus karya ini?")) {
+      await deleteArtwork(id);
+    }
   };
 
   const resetForm = () => {
-    setFormData({ title: "", author: "", description: "", image: "" });
+    setFormData({
+      title: "",
+      author: "",
+      description: "",
+      image_url: "",
+      category: "lukisan",
+    });
     setEditingId(null);
     setShowForm(false);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[ 0 ];
+    if (file) {
+      try {
+        const imageUrl = await uploadImage(file, 'artworks');
+        setFormData({ ...formData, image_url: imageUrl });
+        toast({
+          title: "Berhasil",
+          description: "Gambar berhasil diupload"
+        });
+      } catch (err) {
+        console.error("Error uploading image:", err);
+      }
+    }
   };
 
   return (
@@ -121,11 +152,21 @@ const AdminKarya = () => {
                     <Input
                       type="file"
                       accept="image/*"
+                      onChange={handleImageUpload}
                       className="cursor-pointer"
                     />
                     <p className="text-xs text-muted-foreground mt-1">
                       Unggah gambar untuk ditampilkan pada halaman user
                     </p>
+                    {formData.image_url && (
+                      <div className="mt-2">
+                        <img
+                          src={formData.image_url}
+                          alt="Preview"
+                          className="w-32 h-24 object-cover rounded border"
+                        />
+                      </div>
+                    )}
                   </div>
                   <Input
                     placeholder="Judul Karya"
@@ -139,14 +180,38 @@ const AdminKarya = () => {
                     onChange={(e) => setFormData({ ...formData, author: e.target.value })}
                     required
                   />
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-2 block">
+                      Kategori
+                    </label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground"
+                      required
+                    >
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <Textarea
                     placeholder="Deskripsi Singkat"
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     rows={3}
                   />
-                  <Button type="submit" className="w-full">
-                    Simpan
+                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Menyimpan...
+                      </>
+                    ) : (
+                      "Simpan"
+                    )}
                   </Button>
                 </form>
               </div>
@@ -165,7 +230,7 @@ const AdminKarya = () => {
                 >
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
-                      src={artwork.image}
+                      src={artwork.image_url || "/placeholder.svg"}
                       alt={artwork.title}
                       className="w-full h-full object-cover"
                     />

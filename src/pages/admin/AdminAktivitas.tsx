@@ -5,88 +5,104 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Edit, Trash2, X, MapPin, Calendar } from "lucide-react";
+import { Plus, Edit, Trash2, X, MapPin, Calendar, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useActivities } from "@/hooks/useActivities";
+import type { Database } from "@/integrations/supabase/types";
 
-const initialActivities = [
-  {
-    id: 1,
-    title: "Workshop Batik Modern",
-    description: "Belajar teknik batik kontemporer",
-    date: "2024-02-15",
-    time: "09:00",
-    location: "Gedung Seni Jakarta",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=200&fit=crop",
-  },
-  {
-    id: 2,
-    title: "Pameran Seni Rupa",
-    description: "Pameran karya seniman muda Indonesia",
-    date: "2024-02-20",
-    time: "10:00",
-    location: "Museum Nasional",
-    image: "https://images.unsplash.com/photo-1531058020387-3be344556be6?w=400&h=200&fit=crop",
-  },
-  {
-    id: 3,
-    title: "Festival Musik Tradisional",
-    description: "Pertunjukan musik tradisional nusantara",
-    date: "2024-03-01",
-    time: "19:00",
-    location: "Taman Ismail Marzuki",
-    image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=200&fit=crop",
-  },
-];
+type Activity = Database[ "public" ][ "Tables" ][ "activities" ][ "Row" ]
 
 const AdminAktivitas = () => {
   useDocumentTitle("Kelola Aktivitas - Admin");
   const { toast } = useToast();
-  const [activities, setActivities] = useState(initialActivities);
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [formData, setFormData] = useState({
+  const { activities, loading, error, createActivity, updateActivity, deleteActivity, uploadImage } = useActivities();
+  const [ showForm, setShowForm ] = useState(false);
+  const [ editingId, setEditingId ] = useState<string | null>(null);
+  const [ formData, setFormData ] = useState({
     title: "",
     description: "",
     date: "",
     time: "",
     location: "",
-    image: "",
+    image_url: "",
   });
+  const [ isSubmitting, setIsSubmitting ] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingId) {
-      setActivities(activities.map((a) => (a.id === editingId ? { ...formData, id: editingId } : a)));
-      toast({ title: "Aktivitas berhasil diperbarui" });
-    } else {
-      setActivities([...activities, { ...formData, id: Date.now() }]);
-      toast({ title: "Aktivitas berhasil ditambahkan" });
+    if (isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+
+      const activityData = {
+        title: formData.title,
+        description: formData.description || null,
+        date: formData.date,
+        time: formData.time,
+        location: formData.location,
+        image_url: formData.image_url || null,
+      };
+
+      if (editingId) {
+        await updateActivity(editingId, activityData);
+      } else {
+        await createActivity(activityData);
+      }
+      resetForm();
+    } catch (err) {
+      console.error("Error saving activity:", err);
+    } finally {
+      setIsSubmitting(false);
     }
-    resetForm();
   };
 
-  const handleEdit = (activity: typeof initialActivities[0]) => {
+  const handleEdit = (activity: Activity) => {
     setFormData({
       title: activity.title,
-      description: activity.description,
+      description: activity.description || "",
       date: activity.date,
       time: activity.time,
       location: activity.location,
-      image: activity.image,
+      image_url: activity.image_url || "",
     });
     setEditingId(activity.id);
     setShowForm(true);
   };
 
-  const handleDelete = (id: number) => {
-    setActivities(activities.filter((a) => a.id !== id));
-    toast({ title: "Aktivitas berhasil dihapus" });
+  const handleDelete = async (id: string) => {
+    if (window.confirm("Apakah Anda yakin ingin menghapus aktivitas ini?")) {
+      await deleteActivity(id);
+    }
   };
 
   const resetForm = () => {
-    setFormData({ title: "", description: "", date: "", time: "", location: "", image: "" });
+    setFormData({
+      title: "",
+      description: "",
+      date: "",
+      time: "",
+      location: "",
+      image_url: "",
+    });
     setEditingId(null);
     setShowForm(false);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[ 0 ];
+    if (file) {
+      try {
+        const imageUrl = await uploadImage(file, 'activities');
+        setFormData({ ...formData, image_url: imageUrl });
+        toast({
+          title: "Berhasil",
+          description: "Gambar berhasil diupload"
+        });
+      } catch (err) {
+        console.error("Error uploading image:", err);
+      }
+    }
   };
 
   return (
@@ -131,11 +147,21 @@ const AdminAktivitas = () => {
                     <Input
                       type="file"
                       accept="image/*"
+                      onChange={handleImageUpload}
                       className="cursor-pointer"
                     />
                     <p className="text-xs text-muted-foreground mt-1">
                       Unggah gambar untuk ditampilkan pada halaman user
                     </p>
+                    {formData.image_url && (
+                      <div className="mt-2">
+                        <img
+                          src={formData.image_url}
+                          alt="Preview"
+                          className="w-32 h-20 object-cover rounded border"
+                        />
+                      </div>
+                    )}
                   </div>
                   <Input
                     placeholder="Judul Kegiatan"
@@ -179,8 +205,15 @@ const AdminAktivitas = () => {
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     required
                   />
-                  <Button type="submit" className="w-full">
-                    Simpan
+                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Menyimpan...
+                      </>
+                    ) : (
+                      "Simpan"
+                    )}
                   </Button>
                 </form>
               </div>
@@ -199,7 +232,7 @@ const AdminAktivitas = () => {
                 >
                   <div className="aspect-[2/1] overflow-hidden">
                     <img
-                      src={activity.image}
+                      src={activity.image_url || "/placeholder.svg"}
                       alt={activity.title}
                       className="w-full h-full object-cover"
                     />

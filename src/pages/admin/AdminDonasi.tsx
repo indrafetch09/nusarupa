@@ -5,35 +5,12 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Edit, Trash2, X } from "lucide-react";
+import { Plus, Edit, Trash2, X, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useDonations } from "@/hooks/useDonations";
+import type { Database } from "@/integrations/supabase/types";
 
-const initialDonations = [
-  {
-    id: 1,
-    title: "Bantu Pengrajin Tenun",
-    description: "Dukung pengrajin tenun tradisional Indonesia",
-    target: 10000000,
-    collected: 7500000,
-    image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400&h=200&fit=crop",
-  },
-  {
-    id: 2,
-    title: "Pendidikan Seni Anak",
-    description: "Program pendidikan seni untuk anak-anak",
-    target: 5000000,
-    collected: 2250000,
-    image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&h=200&fit=crop",
-  },
-  {
-    id: 3,
-    title: "Pelestarian Musik Tradisional",
-    description: "Melestarikan alat musik tradisional nusantara",
-    target: 15000000,
-    collected: 9000000,
-    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=200&fit=crop",
-  },
-];
+type Donation = Database[ "public" ][ "Tables" ][ "donations" ][ "Row" ]
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("id-ID", {
@@ -46,58 +23,94 @@ const formatCurrency = (amount: number) => {
 const AdminDonasi = () => {
   useDocumentTitle("Kelola Donasi - Admin");
   const { toast } = useToast();
-  const [donations, setDonations] = useState(initialDonations);
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [formData, setFormData] = useState({
+  const { donations, loading, error, createDonation, updateDonation, deleteDonation, uploadImage } = useDonations();
+  const [ showForm, setShowForm ] = useState(false);
+  const [ editingId, setEditingId ] = useState<string | null>(null);
+  const [ formData, setFormData ] = useState({
     title: "",
     description: "",
-    target: "",
-    collected: "0",
-    image: "",
+    target_amount: "",
+    collected_amount: "0",
+    image_url: "",
+    is_active: true,
   });
+  const [ isSubmitting, setIsSubmitting ] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const donationData = {
-      title: formData.title,
-      description: formData.description,
-      target: parseInt(formData.target) || 0,
-      collected: parseInt(formData.collected) || 0,
-      image: formData.image || "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=400&h=200&fit=crop",
-    };
-    
-    if (editingId) {
-      setDonations(donations.map((d) => (d.id === editingId ? { ...donationData, id: editingId } : d)));
-      toast({ title: "Donasi berhasil diperbarui" });
-    } else {
-      setDonations([...donations, { ...donationData, id: Date.now() }]);
-      toast({ title: "Donasi berhasil ditambahkan" });
+    if (isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+
+      const donationData = {
+        title: formData.title,
+        description: formData.description || null,
+        target_amount: parseInt(formData.target_amount) || 0,
+        collected_amount: parseInt(formData.collected_amount) || 0,
+        image_url: formData.image_url || null,
+        is_active: formData.is_active,
+      };
+
+      if (editingId) {
+        await updateDonation(editingId, donationData);
+      } else {
+        await createDonation(donationData);
+      }
+      resetForm();
+    } catch (err) {
+      console.error("Error saving donation:", err);
+    } finally {
+      setIsSubmitting(false);
     }
-    resetForm();
   };
 
-  const handleEdit = (donation: typeof initialDonations[0]) => {
+  const handleEdit = (donation: Donation) => {
     setFormData({
       title: donation.title,
-      description: donation.description,
-      target: donation.target.toString(),
-      collected: donation.collected.toString(),
-      image: donation.image,
+      description: donation.description || "",
+      target_amount: donation.target_amount.toString(),
+      collected_amount: donation.collected_amount.toString(),
+      image_url: donation.image_url || "",
+      is_active: donation.is_active,
     });
     setEditingId(donation.id);
     setShowForm(true);
   };
 
-  const handleDelete = (id: number) => {
-    setDonations(donations.filter((d) => d.id !== id));
-    toast({ title: "Donasi berhasil dihapus" });
+  const handleDelete = async (id: string) => {
+    if (window.confirm("Apakah Anda yakin ingin menghapus donasi ini?")) {
+      await deleteDonation(id);
+    }
   };
 
   const resetForm = () => {
-    setFormData({ title: "", description: "", target: "", collected: "0", image: "" });
+    setFormData({
+      title: "",
+      description: "",
+      target_amount: "",
+      collected_amount: "0",
+      image_url: "",
+      is_active: true,
+    });
     setEditingId(null);
     setShowForm(false);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[ 0 ];
+    if (file) {
+      try {
+        const imageUrl = await uploadImage(file, 'donations');
+        setFormData({ ...formData, image_url: imageUrl });
+        toast({
+          title: "Berhasil",
+          description: "Gambar berhasil diupload"
+        });
+      } catch (err) {
+        console.error("Error uploading image:", err);
+      }
+    }
   };
 
   return (
@@ -142,11 +155,21 @@ const AdminDonasi = () => {
                     <Input
                       type="file"
                       accept="image/*"
+                      onChange={handleImageUpload}
                       className="cursor-pointer"
                     />
                     <p className="text-xs text-muted-foreground mt-1">
                       Unggah gambar untuk ditampilkan pada halaman user
                     </p>
+                    {formData.image_url && (
+                      <div className="mt-2">
+                        <img
+                          src={formData.image_url}
+                          alt="Preview"
+                          className="w-32 h-20 object-cover rounded border"
+                        />
+                      </div>
+                    )}
                   </div>
                   <Input
                     placeholder="Judul Campaign"
@@ -167,13 +190,43 @@ const AdminDonasi = () => {
                     <Input
                       type="number"
                       placeholder="10000000"
-                      value={formData.target}
-                      onChange={(e) => setFormData({ ...formData, target: e.target.value })}
+                      value={formData.target_amount}
+                      onChange={(e) => setFormData({ ...formData, target_amount: e.target.value })}
                       required
                     />
                   </div>
-                  <Button type="submit" className="w-full">
-                    Simpan
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-2 block">
+                      Terkumpul (Rp)
+                    </label>
+                    <Input
+                      type="number"
+                      placeholder="0"
+                      value={formData.collected_amount}
+                      onChange={(e) => setFormData({ ...formData, collected_amount: e.target.value })}
+                    />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="is_active"
+                      checked={formData.is_active}
+                      onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
+                      className="rounded border-border"
+                    />
+                    <label htmlFor="is_active" className="text-sm font-medium text-foreground">
+                      Campaign Aktif
+                    </label>
+                  </div>
+                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Menyimpan...
+                      </>
+                    ) : (
+                      "Simpan"
+                    )}
                   </Button>
                 </form>
               </div>
@@ -186,7 +239,7 @@ const AdminDonasi = () => {
           <div className="container mx-auto max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {donations.map((donation) => {
-                const progress = Math.round((donation.collected / donation.target) * 100);
+                const progress = Math.round((donation.collected_amount / donation.target_amount) * 100);
                 return (
                   <div
                     key={donation.id}
@@ -194,7 +247,7 @@ const AdminDonasi = () => {
                   >
                     <div className="aspect-[2/1] overflow-hidden">
                       <img
-                        src={donation.image}
+                        src={donation.image_url || "/placeholder.svg"}
                         alt={donation.title}
                         className="w-full h-full object-cover"
                       />
@@ -211,12 +264,17 @@ const AdminDonasi = () => {
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">{progress}% terkumpul</span>
                           <span className="font-medium text-foreground">
-                            {formatCurrency(donation.target)}
+                            {formatCurrency(donation.target_amount)}
                           </span>
                         </div>
                         <p className="text-sm text-primary font-medium">
-                          Terkumpul: {formatCurrency(donation.collected)}
+                          Terkumpul: {formatCurrency(donation.collected_amount)}
                         </p>
+                        {!donation.is_active && (
+                          <span className="inline-block px-2 py-1 text-xs bg-red-100 text-red-600 rounded">
+                            Tidak Aktif
+                          </span>
+                        )}
                       </div>
                       <div className="flex gap-2 mt-4">
                         <Button

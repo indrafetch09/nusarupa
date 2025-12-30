@@ -1,3 +1,4 @@
+// Json type for flexible data handling
 export type Json =
   | string
   | number
@@ -6,15 +7,132 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+// Database interface for Supabase
 export interface Database {
   public: {
     Tables: {
+      artworks: {
+        Row: {
+          id: string
+          title: string
+          author: string
+          description: string | null
+          image_url: string | null
+          category: string
+          likes: number
+          views: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          author: string
+          description?: string | null
+          image_url?: string | null
+          category: string
+          likes?: number
+          views?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          author?: string
+          description?: string | null
+          image_url?: string | null
+          category?: string
+          likes?: number
+          views?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      activities: {
+        Row: {
+          id: string
+          title: string
+          description: string | null
+          date: string
+          time: string
+          location: string
+          image_url: string | null
+          participants: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          description?: string | null
+          date: string
+          time: string
+          location: string
+          image_url?: string | null
+          participants?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string | null
+          date?: string
+          time?: string
+          location?: string
+          image_url?: string | null
+          participants?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      donations: {
+        Row: {
+          id: string
+          title: string
+          description: string | null
+          target_amount: number
+          collected_amount: number
+          image_url: string | null
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          description?: string | null
+          target_amount: number
+          collected_amount?: number
+          image_url?: string | null
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string | null
+          target_amount?: number
+          collected_amount?: number
+          image_url?: string | null
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           id: string
           user_id: string
           full_name: string | null
+          bio: string | null
           avatar_url: string | null
+          role: 'admin' | 'user'
           created_at: string
           updated_at: string
         }
@@ -22,7 +140,9 @@ export interface Database {
           id?: string
           user_id: string
           full_name?: string | null
+          bio?: string | null
           avatar_url?: string | null
+          role?: 'admin' | 'user'
           created_at?: string
           updated_at?: string
         }
@@ -30,7 +150,9 @@ export interface Database {
           id?: string
           user_id?: string
           full_name?: string | null
+          bio?: string | null
           avatar_url?: string | null
+          role?: 'admin' | 'user'
           created_at?: string
           updated_at?: string
         }
