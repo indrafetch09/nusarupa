@@ -56,8 +56,6 @@ const Home = () => {
   const { user } = useAuth();
 
   const firstName = user?.user_metadata?.full_name?.split(" ")[ 0 ] || "Kawan";
-  // TODO: add working searchQuery
-
 
   return (
     <div className="min-h-screen bg-background">
@@ -70,19 +68,9 @@ const Home = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
               Haii {firstName}
             </h1>
-            <p className="text-lg text-muted-foreground mb-8">
+            <p className="text-lg text-muted-foreground mb-2">
               mau aktif kegiatan apa hari ini?
             </p>
-
-            {/* Search Bar */}
-            <div className="relative max-w-xl">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Cari karya, aktivitas, atau seniman..."
-                className="pl-12 h-12 rounded-full border-border bg-muted/50"
-              />
-            </div>
           </div>
         </section>
 
