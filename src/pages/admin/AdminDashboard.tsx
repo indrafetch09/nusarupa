@@ -6,25 +6,25 @@ import { Image, Calendar, Heart, Users } from "lucide-react";
 const statsCards = [
   {
     title: "Total Karya",
-    value: "156",
+    value: "3",
     icon: Image,
     description: "Karya seni terdaftar",
   },
   {
     title: "Total Aktivitas",
-    value: "24",
+    value: "3",
     icon: Calendar,
     description: "Event aktif",
   },
   {
     title: "Total Donasi",
-    value: "18",
+    value: "3",
     icon: Heart,
     description: "Campaign donasi",
   },
   {
     title: "Total Pengguna",
-    value: "1,234",
+    value: "25",
     icon: Users,
     description: "Anggota komunitas",
   },
