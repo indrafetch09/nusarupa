@@ -1,4 +1,4 @@
-# 🎨 Nusarupa Hub
+# 🎨 Nusarupa
 
 ![Project Status](https://img.shields.io/badge/status-development-orange)
 ![License](https://img.shields.io/badge/license-MIT-blue)
